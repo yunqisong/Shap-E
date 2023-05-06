@@ -1,3 +1,4 @@
+import gc
 import tempfile
 
 import numpy as np
@@ -78,6 +79,8 @@ class Model:
             return
         self.model = load_model(model_name, device=self.device)
         self.model_name = model_name
+        gc.collect()
+        torch.cuda.empty_cache()
 
     def to_glb(self, latent: torch.Tensor) -> str:
         ply_path = tempfile.NamedTemporaryFile(suffix='.ply',
