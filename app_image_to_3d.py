@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import pathlib
 import shlex
 import subprocess
 
@@ -11,14 +12,15 @@ from utils import randomize_seed_fn
 
 
 def create_demo(model: Model) -> gr.Blocks:
-    subprocess.run(
-        shlex.split(
-            'wget https://raw.githubusercontent.com/openai/shap-e/d99cedaea18e0989e340163dbaeb4b109fa9e8ec/shap_e/examples/example_data/corgi.png -O corgi.png'
-        ))
+    if not pathlib.Path('corgi.png').exists():
+        subprocess.run(
+            shlex.split(
+                'wget https://raw.githubusercontent.com/openai/shap-e/d99cedaea18e0989e340163dbaeb4b109fa9e8ec/shap_e/examples/example_data/corgi.png -O corgi.png'
+            ))
     examples = ['corgi.png']
 
     def process_example_fn(image_path: str) -> str:
-        return model.run_image(image_path, output_image_size=128)
+        return model.run_image(image_path)
 
     with gr.Blocks() as demo:
         with gr.Box():
@@ -26,7 +28,7 @@ def create_demo(model: Model) -> gr.Blocks:
                              show_label=False,
                              type='filepath')
             run_button = gr.Button('Run')
-            result = gr.Video(label='Result', elem_id='result-2')
+            result = gr.Model3D(label='Result', show_label=False)
             with gr.Accordion('Advanced options', open=False):
                 seed = gr.Slider(label='Seed',
                                  minimum=0,
@@ -46,15 +48,6 @@ def create_demo(model: Model) -> gr.Blocks:
                     maximum=100,
                     step=1,
                     value=64)
-                image_size = gr.Slider(label='Image size',
-                                       minimum=64,
-                                       maximum=256,
-                                       step=64,
-                                       value=128)
-                render_mode = gr.Dropdown(label='Render mode',
-                                          choices=['nerf', 'stf'],
-                                          value='nerf',
-                                          visible=False)
 
         gr.Examples(examples=examples,
                     inputs=image,
@@ -67,8 +60,6 @@ def create_demo(model: Model) -> gr.Blocks:
             seed,
             guidance_scale,
             num_inference_steps,
-            image_size,
-            render_mode,
         ]
 
         run_button.click(

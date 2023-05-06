@@ -21,7 +21,7 @@ def create_demo(model: Model) -> gr.Blocks:
     ]
 
     def process_example_fn(prompt: str) -> str:
-        return model.run_text(prompt, output_image_size=128)
+        return model.run_text(prompt)
 
     with gr.Blocks() as demo:
         with gr.Box():
@@ -32,7 +32,7 @@ def create_demo(model: Model) -> gr.Blocks:
                     max_lines=1,
                     placeholder='Enter your prompt').style(container=False)
                 run_button = gr.Button('Run').style(full_width=False)
-            result = gr.Video(label='Result', elem_id='result-1')
+            result = gr.Model3D(label='Result', show_label=False)
             with gr.Accordion('Advanced options', open=False):
                 seed = gr.Slider(label='Seed',
                                  minimum=0,
@@ -52,15 +52,6 @@ def create_demo(model: Model) -> gr.Blocks:
                     maximum=100,
                     step=1,
                     value=64)
-                image_size = gr.Slider(label='Image size',
-                                       minimum=64,
-                                       maximum=256,
-                                       step=64,
-                                       value=128)
-                render_mode = gr.Dropdown(label='Render mode',
-                                          choices=['nerf', 'stf'],
-                                          value='nerf',
-                                          visible=False)
 
         gr.Examples(examples=examples,
                     inputs=prompt,
@@ -73,8 +64,6 @@ def create_demo(model: Model) -> gr.Blocks:
             seed,
             guidance_scale,
             num_inference_steps,
-            image_size,
-            render_mode,
         ]
         prompt.submit(
             fn=randomize_seed_fn,
@@ -86,7 +75,6 @@ def create_demo(model: Model) -> gr.Blocks:
             inputs=inputs,
             outputs=result,
         )
-
         run_button.click(
             fn=randomize_seed_fn,
             inputs=[seed, randomize_seed],
