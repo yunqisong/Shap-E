@@ -1,4 +1,3 @@
-import gc
 import tempfile
 
 import numpy as np
@@ -70,17 +69,15 @@ class Model:
             'cuda' if torch.cuda.is_available() else 'cpu')
         self.xm = load_model('transmitter', device=self.device)
         self.diffusion = diffusion_from_config(load_config('diffusion'))
-        self.model_name = ''
-        self.model = None
+        self.model_text = None
+        self.model_image = None
 
     def load_model(self, model_name: str) -> None:
         assert model_name in ['text300M', 'image300M']
-        if model_name == self.model_name:
-            return
-        self.model = load_model(model_name, device=self.device)
-        self.model_name = model_name
-        gc.collect()
-        torch.cuda.empty_cache()
+        if model_name == 'text300M' and self.model_text is None:
+            self.model_text = load_model(model_name, device=self.device)
+        elif model_name == 'image300M' and self.model_image is None:
+            self.model_image = load_model(model_name, device=self.device)
 
     def to_glb(self, latent: torch.Tensor) -> str:
         ply_path = tempfile.NamedTemporaryFile(suffix='.ply',
@@ -109,7 +106,7 @@ class Model:
 
         latents = sample_latents(
             batch_size=1,
-            model=self.model,
+            model=self.model_text,
             diffusion=self.diffusion,
             guidance_scale=guidance_scale,
             model_kwargs=dict(texts=[prompt]),
@@ -135,7 +132,7 @@ class Model:
         image = load_image(image_path)
         latents = sample_latents(
             batch_size=1,
-            model=self.model,
+            model=self.model_image,
             diffusion=self.diffusion,
             guidance_scale=guidance_scale,
             model_kwargs=dict(images=[image]),
