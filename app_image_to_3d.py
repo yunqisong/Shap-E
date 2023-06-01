@@ -71,5 +71,6 @@ def create_demo(model: Model) -> gr.Blocks:
             fn=model.run_image,
             inputs=inputs,
             outputs=result,
+            api_name='image-to-3d',
         )
     return demo

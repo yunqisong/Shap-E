@@ -84,5 +84,6 @@ def create_demo(model: Model) -> gr.Blocks:
             fn=model.run_text,
             inputs=inputs,
             outputs=result,
+            api_name='text-to-3d',
         )
     return demo
