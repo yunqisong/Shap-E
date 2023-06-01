@@ -1,5 +1,5 @@
 git+https://github.com/openai/shap-e@8625e7c
-gradio==3.28.3
+gradio==3.32.0
 torch==2.0.0
 torchvision==0.15.1
 trimesh==3.21.5
