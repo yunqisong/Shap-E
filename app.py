@@ -20,7 +20,7 @@ with gr.Blocks(css='style.css') as demo:
     gr.Markdown(DESCRIPTION)
     gr.DuplicateButton(value='Duplicate Space for private use',
                        elem_id='duplicate-button',
-                       visible=os.getenv('SYSTEM') == 'spaces')
+                       visible=os.getenv('SHOW_DUPLICATE_BUTTON') == '1')
     with gr.Tabs():
         with gr.Tab(label='Text to 3D'):
             create_demo_text_to_3d(model)
