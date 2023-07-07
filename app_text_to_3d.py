@@ -26,12 +26,12 @@ def create_demo(model: Model) -> gr.Blocks:
     with gr.Blocks() as demo:
         with gr.Box():
             with gr.Row(elem_id='prompt-container'):
-                prompt = gr.Text(
-                    label='Prompt',
-                    show_label=False,
-                    max_lines=1,
-                    placeholder='Enter your prompt').style(container=False)
-                run_button = gr.Button('Run').style(full_width=False)
+                prompt = gr.Text(label='Prompt',
+                                 show_label=False,
+                                 max_lines=1,
+                                 placeholder='Enter your prompt',
+                                 container=False)
+                run_button = gr.Button('Run', scale=0)
             result = gr.Model3D(label='Result', show_label=False)
             with gr.Accordion('Advanced options', open=False):
                 seed = gr.Slider(label='Seed',
