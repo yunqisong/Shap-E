@@ -1,5 +1,5 @@
-git+https://github.com/openai/shap-e@8625e7c
+git+https://github.com/huggingface/diffusers@shap-ee-mesh
 gradio==3.36.1
 torch==2.0.1
 torchvision==0.15.2
-trimesh==3.22.1
+trimesh==3.22.3

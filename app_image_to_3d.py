@@ -24,9 +24,7 @@ def create_demo(model: Model) -> gr.Blocks:
 
     with gr.Blocks() as demo:
         with gr.Box():
-            image = gr.Image(label='Input image',
-                             show_label=False,
-                             type='filepath')
+            image = gr.Image(label='Input image', show_label=False, type='pil')
             run_button = gr.Button('Run')
             result = gr.Model3D(label='Result', show_label=False)
             with gr.Accordion('Advanced options', open=False):
