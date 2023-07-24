@@ -1,5 +1,5 @@
-git+https://github.com/huggingface/diffusers@shap-ee-mesh
-gradio==3.36.1
+git+https://github.com/huggingface/diffusers@09fab56
+gradio==3.38.0
 torch==2.0.1
 torchvision==0.15.2
 trimesh==3.22.3

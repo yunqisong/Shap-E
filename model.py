@@ -12,12 +12,12 @@ class Model:
     def __init__(self):
         self.device = torch.device(
             'cuda' if torch.cuda.is_available() else 'cpu')
-        self.pipe = ShapEPipeline.from_pretrained('YiYiXu/shap-e',
+        self.pipe = ShapEPipeline.from_pretrained('openai/shap-e',
                                                   torch_dtype=torch.float16)
         self.pipe.to(self.device)
 
         self.pipe_img = ShapEImg2ImgPipeline.from_pretrained(
-            'YiYiXu/shap-e-img2img', torch_dtype=torch.float16)
+            'openai/shap-e-img2img', torch_dtype=torch.float16)
         self.pipe_img.to(self.device)
 
     def to_glb(self, ply_path: str) -> str:
