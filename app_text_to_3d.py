@@ -53,7 +53,7 @@ def create_demo(model: Model) -> gr.Blocks:
                 )
                 num_inference_steps = gr.Slider(
                     label="Number of inference steps",
-                    minimum=1,
+                    minimum=2,
                     maximum=100,
                     step=1,
                     value=64,
