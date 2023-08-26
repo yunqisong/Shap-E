@@ -1,6 +1,6 @@
-git+https://github.com/huggingface/diffusers@09fab56
-gradio==3.38.0
+diffusers==0.20.0
+gradio==3.41.2
 torch==2.0.1
 torchvision==0.15.2
-transformers==4.31.0
-trimesh==3.22.3
+transformers==4.32.0
+trimesh==3.23.5
