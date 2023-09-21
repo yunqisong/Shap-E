@@ -5,6 +5,8 @@ import shlex
 import subprocess
 
 import gradio as gr
+import PIL.Image
+import spaces
 
 from model import Model
 from settings import CACHE_EXAMPLES, MAX_SEED
@@ -20,8 +22,13 @@ def create_demo(model: Model) -> gr.Blocks:
         )
     examples = ["corgi.png"]
 
+    @spaces.GPU
     def process_example_fn(image_path: str) -> str:
         return model.run_image(image_path)
+
+    @spaces.GPU
+    def run(image: PIL.Image.Image, seed: int, guidance_scale: float, num_inference_steps: int) -> str:
+        return model.run_image(image, seed, guidance_scale, num_inference_steps)
 
     with gr.Blocks() as demo:
         with gr.Box():
@@ -74,7 +81,7 @@ def create_demo(model: Model) -> gr.Blocks:
             queue=False,
             api_name=False,
         ).then(
-            fn=model.run_image,
+            fn=run,
             inputs=inputs,
             outputs=result,
             api_name="image-to-3d",

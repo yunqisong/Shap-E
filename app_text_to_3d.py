@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import gradio as gr
+import spaces
 
 from model import Model
 from settings import CACHE_EXAMPLES, MAX_SEED
@@ -20,8 +21,13 @@ def create_demo(model: Model) -> gr.Blocks:
         "A bowl of vegetables",
     ]
 
+    @spaces.GPU
     def process_example_fn(prompt: str) -> str:
         return model.run_text(prompt)
+
+    @spaces.GPU
+    def run(prompt: str, seed: int, guidance_scale: float, num_inference_steps: int) -> str:
+        return model.run_text(prompt, seed, guidance_scale, num_inference_steps)
 
     with gr.Blocks() as demo:
         with gr.Box():
@@ -80,7 +86,7 @@ def create_demo(model: Model) -> gr.Blocks:
             queue=False,
             api_name=False,
         ).then(
-            fn=model.run_text,
+            fn=run,
             inputs=inputs,
             outputs=result,
             api_name=False,
@@ -92,7 +98,7 @@ def create_demo(model: Model) -> gr.Blocks:
             queue=False,
             api_name=False,
         ).then(
-            fn=model.run_text,
+            fn=run,
             inputs=inputs,
             outputs=result,
             api_name="text-to-3d",
