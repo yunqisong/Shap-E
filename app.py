@@ -28,4 +28,6 @@ with gr.Blocks(css="style.css") as demo:
             create_demo_text_to_3d(model)
         with gr.Tab(label="Image to 3D"):
             create_demo_image_to_3d(model)
-demo.queue(max_size=10).launch()
+
+if __name__ == "__main__":
+    demo.queue(max_size=10).launch()
