@@ -79,19 +79,8 @@ def create_demo(model: Model) -> gr.Blocks:
             guidance_scale,
             num_inference_steps,
         ]
-        prompt.submit(
-            fn=randomize_seed_fn,
-            inputs=[seed, randomize_seed],
-            outputs=seed,
-            queue=False,
-            api_name=False,
-        ).then(
-            fn=run,
-            inputs=inputs,
-            outputs=result,
-            api_name=False,
-        )
-        run_button.click(
+        gr.on(
+            triggers=[prompt.submit, run_button.click],
             fn=randomize_seed_fn,
             inputs=[seed, randomize_seed],
             outputs=seed,
