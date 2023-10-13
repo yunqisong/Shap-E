@@ -67,13 +67,6 @@ def create_demo(model: Model) -> gr.Blocks:
             cache_examples=CACHE_EXAMPLES,
         )
 
-        inputs = [
-            image,
-            seed,
-            guidance_scale,
-            num_inference_steps,
-        ]
-
         run_button.click(
             fn=randomize_seed_fn,
             inputs=[seed, randomize_seed],
@@ -82,7 +75,12 @@ def create_demo(model: Model) -> gr.Blocks:
             api_name=False,
         ).then(
             fn=run,
-            inputs=inputs,
+            inputs=[
+                image,
+                seed,
+                guidance_scale,
+                num_inference_steps,
+            ],
             outputs=result,
             api_name="image-to-3d",
         )

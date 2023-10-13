@@ -73,12 +73,6 @@ def create_demo(model: Model) -> gr.Blocks:
             cache_examples=CACHE_EXAMPLES,
         )
 
-        inputs = [
-            prompt,
-            seed,
-            guidance_scale,
-            num_inference_steps,
-        ]
         gr.on(
             triggers=[prompt.submit, run_button.click],
             fn=randomize_seed_fn,
@@ -88,7 +82,12 @@ def create_demo(model: Model) -> gr.Blocks:
             api_name=False,
         ).then(
             fn=run,
-            inputs=inputs,
+            inputs=[
+                prompt,
+                seed,
+                guidance_scale,
+                num_inference_steps,
+            ],
             outputs=result,
             api_name="text-to-3d",
         )
