@@ -30,7 +30,7 @@ def create_demo(model: Model) -> gr.Blocks:
         return model.run_text(prompt, seed, guidance_scale, num_inference_steps)
 
     with gr.Blocks() as demo:
-        with gr.Box():
+        with gr.Group():
             with gr.Row(elem_id="prompt-container"):
                 prompt = gr.Text(
                     label="Prompt",
@@ -78,8 +78,8 @@ def create_demo(model: Model) -> gr.Blocks:
             fn=randomize_seed_fn,
             inputs=[seed, randomize_seed],
             outputs=seed,
-            queue=False,
             api_name=False,
+            concurrency_limit=None,
         ).then(
             fn=run,
             inputs=[
@@ -90,5 +90,7 @@ def create_demo(model: Model) -> gr.Blocks:
             ],
             outputs=result,
             api_name="text-to-3d",
+            concurrency_id="gpu",
+            concurrency_limit=1,
         )
     return demo

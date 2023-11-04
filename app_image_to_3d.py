@@ -31,7 +31,7 @@ def create_demo(model: Model) -> gr.Blocks:
         return model.run_image(image, seed, guidance_scale, num_inference_steps)
 
     with gr.Blocks() as demo:
-        with gr.Box():
+        with gr.Group():
             image = gr.Image(label="Input image", show_label=False, type="pil")
             run_button = gr.Button("Run")
             result = gr.Model3D(label="Result", show_label=False)
@@ -71,8 +71,8 @@ def create_demo(model: Model) -> gr.Blocks:
             fn=randomize_seed_fn,
             inputs=[seed, randomize_seed],
             outputs=seed,
-            queue=False,
             api_name=False,
+            concurrency_limit=None,
         ).then(
             fn=run,
             inputs=[
@@ -83,5 +83,7 @@ def create_demo(model: Model) -> gr.Blocks:
             ],
             outputs=result,
             api_name="image-to-3d",
+            concurrency_id="gpu",
+            concurrency_limit=1,
         )
     return demo
