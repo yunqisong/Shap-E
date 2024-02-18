@@ -3,7 +3,7 @@ h1 {
   display: block;
 }
 
-#component-0 {
+.contain {
   max-width: 730px;
   margin: auto;
   padding-top: 1.5rem;
