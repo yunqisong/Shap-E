@@ -1,8 +1,8 @@
 accelerate==0.27.2
 diffusers==0.26.3
-gradio==4.19.1
+gradio==4.19.2
 spaces==0.23.2
 torch==2.0.0
 torchvision==0.15.1
-transformers==4.37.2
+transformers==4.38.1
 trimesh==4.1.4
