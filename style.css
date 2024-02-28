@@ -5,6 +5,7 @@ h1 {
 
 .contain {
   max-width: 730px;
+  min-width: 400px;
   margin: auto;
   padding-top: 1.5rem;
 }
