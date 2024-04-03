@@ -4,7 +4,7 @@ import gradio as gr
 import spaces
 
 from model import Model
-from settings import CACHE_EXAMPLES, MAX_SEED
+from settings import MAX_SEED
 from utils import randomize_seed_fn
 
 
@@ -70,7 +70,6 @@ def create_demo(model: Model) -> gr.Blocks:
             inputs=prompt,
             outputs=result,
             fn=process_example_fn,
-            cache_examples=CACHE_EXAMPLES,
         )
 
         gr.on(
